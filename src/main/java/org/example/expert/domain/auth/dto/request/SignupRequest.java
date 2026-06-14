@@ -11,6 +11,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SignupRequest {
 
+    // nickname 추가 설정
+    @NotBlank
+    private String nickname;
     @NotBlank @Email
     private String email;
     @NotBlank
