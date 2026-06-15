@@ -1,0 +1,22 @@
+package org.example.expert.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import com.querydsl.jpa.impl.JPAQueryFactory;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+
+@Configuration
+public class QuerydslConfig {
+
+	// JPA 환경에서 EntityManager를 주입받기 위한 어노테이션
+	@PersistenceContext
+	private EntityManager em;
+
+	@Bean
+	public JPAQueryFactory jpaQueryFactory() {
+		return new JPAQueryFactory(em);
+	}
+}
