@@ -37,6 +37,11 @@ public class JwtFilter extends OncePerRequestFilter {
             return;
         }
 
+        if (requestURI.startsWith("/ws")) {
+            filterChain.doFilter(request,response);
+            return;
+        }
+
         String authorizationHeader = request.getHeader("Authorization");
 
         if (authorizationHeader == null || !authorizationHeader.startsWith(BEARER_PREFIX)) {

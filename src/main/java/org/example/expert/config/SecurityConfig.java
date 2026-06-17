@@ -28,6 +28,7 @@ public class SecurityConfig {
 			.addFilterBefore(new JwtFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class)
 			// 각 path별 권한 설정
 			.authorizeHttpRequests(auth -> auth
+				.requestMatchers("/ws").permitAll()
 				.requestMatchers("/auth/**").permitAll()
 				.requestMatchers("/admin/**").hasRole("ADMIN")
 				.anyRequest().authenticated()
