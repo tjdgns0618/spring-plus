@@ -1,5 +1,7 @@
 package org.example.expert.domain.user.service;
 
+import java.util.List;
+
 import lombok.RequiredArgsConstructor;
 import org.example.expert.config.PasswordEncoder;
 import org.example.expert.domain.common.exception.InvalidRequestException;
@@ -47,5 +49,18 @@ public class UserService {
                 !userChangePasswordRequest.getNewPassword().matches(".*[A-Z].*")) {
             throw new InvalidRequestException("새 비밀번호는 8자 이상이어야 하고, 숫자와 대문자를 포함해야 합니다.");
         }
+    }
+
+    @Transactional(readOnly = true)
+    public List<UserResponse> searchUser(String nickname) {
+        // 쿼리 메서드에 nickname을 조건으로 검색하는 방식 (500~700ms)
+        // List<User> users = userRepository.findAllUsersByNickname(nickname);
+
+        // JPQL에 nickname을 조건으로 검색하는 방식 (500~700ms)
+        List<User> users = userRepository.findUsersByJpql(nickname);
+
+        return users.stream()
+            .map(user -> new UserResponse(user.getId(), user.getEmail()))
+            .toList();
     }
 }
